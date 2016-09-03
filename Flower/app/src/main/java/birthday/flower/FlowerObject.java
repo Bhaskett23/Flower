@@ -13,7 +13,7 @@ public class FlowerObject
     String _Cleansing;
 
     public FlowerObject(){}
-// main constructor for the FlowerObject
+    // main constructor for the FlowerObject
     //look into making different constructors
     public FlowerObject(int id,
                         String FlowerName,
