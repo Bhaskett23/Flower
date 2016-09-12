@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -18,8 +19,8 @@ import java.util.List;
  */
 public class DataBaseHelper extends SQLiteOpenHelper
 {
-    private static String DB_PATH = "/Flower/Flower/app/src/main/assests";
-    private static String DB_NAME = "Flowers";
+    private static String DB_PATH;
+    private static String DB_NAME = "Flowers.db";
     private SQLiteDatabase myDataBase;
     private final Context myContext;
 
@@ -27,6 +28,8 @@ public class DataBaseHelper extends SQLiteOpenHelper
     {
         super(context, DB_NAME, null, 1);
         this.myContext = context;
+            this.DB_PATH = "/data/data/" + context.getPackageName() + "/databases/";
+            Log.e("Path 1", DB_PATH);
     }
 
     public void createDataBase() throws IOException
@@ -60,11 +63,9 @@ public class DataBaseHelper extends SQLiteOpenHelper
         {
             throw new Error("DB Doesn't Exist");
         }
-
-        checkDB.close();
-
         if (checkDB != null)
         {
+            checkDB.close();
             return true;
         }
         return false;
@@ -106,9 +107,9 @@ public class DataBaseHelper extends SQLiteOpenHelper
     //grab all names for drop down
     public List<FlowerObject> GrabAllNames()
     {
-        List<FlowerObject> flowers = new ArrayList<FlowerObject>();
-        openDataBase();
-       Cursor cursor = myDataBase.rawQuery("select Name from Flowers", null);
+        List<FlowerObject> flowers = new ArrayList<>();
+        String[] columns = {"Name"};
+       Cursor cursor = myDataBase.query("Flowers", columns, null, null, null, null, null, null);
        cursor.moveToFirst();
         while(!cursor.isAfterLast())
         {
@@ -119,14 +120,13 @@ public class DataBaseHelper extends SQLiteOpenHelper
         return flowers;
     }
 
+    //grab specific Flower by name
     public FlowerObject GrabSpecificFlower(String name)
     {
-
         Cursor cursor = myDataBase.rawQuery("select Name, KeyWords, Indications, Cleansing from Flowers WHERE Name = ?",
                 new String[]{name});
 
-
-        FlowerObject flower = new FlowerObject(0, name, );
+        FlowerObject flower = new FlowerObject(0, name, null, null, null);
         return flower;
     }
 
