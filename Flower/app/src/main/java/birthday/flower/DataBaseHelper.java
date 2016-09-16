@@ -110,7 +110,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
     {
         List<FlowerObject> flowers = new ArrayList<>();
         String[] columns = {"Name"};
-       Cursor cursor = myDataBase.query("Flowers", columns, null, null, null, null, null, null);
+       Cursor cursor = myDataBase.query("Flowers", null, null, null, null, null, null, null);
        cursor.moveToFirst();
         while(!cursor.isAfterLast())
         {

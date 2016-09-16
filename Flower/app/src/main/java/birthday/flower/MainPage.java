@@ -3,6 +3,7 @@ package birthday.flower;
 import android.database.SQLException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,6 +32,12 @@ public class MainPage extends AppCompatActivity
         {
             throw sqle;
         }
-        helper.GrabAllNames();
+
+        flowers = helper.GrabAllNames();
+        Toast.makeText(MainPage.this, "Success", Toast.LENGTH_SHORT).show();
+        for (FlowerObject flower: flowers)
+        {
+            Toast.makeText(MainPage.this, flower._FlowerName, Toast.LENGTH_LONG).show();
+        }
     }
 }
