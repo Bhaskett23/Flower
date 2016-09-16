@@ -34,10 +34,11 @@ public class DataBaseHelper extends SQLiteOpenHelper
 
     public void createDataBase() throws IOException
     {
-        boolean dbExists = checkDataBase();
+        //hack: will always create new db when inserting new flowers and deleting is needed will need to add in else updates will not be read until the app is run again
+       // boolean dbExists = checkDataBase();
 
-        if (!dbExists)
-        {
+       // if (!dbExists)
+       // {
             this.getReadableDatabase();
             try
             {
@@ -47,7 +48,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
             {
                 throw new Error("Error copying Database");
             }
-        }
+      //  }
     }
 
     private boolean checkDataBase()
@@ -115,6 +116,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
         {
             FlowerObject temp = new FlowerObject(0, cursor.getString(1), null, null, null);
             flowers.add(temp);
+            cursor.moveToNext();
         }
 
         return flowers;
@@ -134,5 +136,18 @@ public class DataBaseHelper extends SQLiteOpenHelper
     public void onCreate(SQLiteDatabase sqLiteDatabase){}
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1){}
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion)
+    {
+        if (newVersion > oldVersion)
+        {
+            try
+            {
+                copyDataBase();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
 }
