@@ -3,21 +3,23 @@ package birthday.flower;
 import android.database.SQLException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.io.IOException;
 import java.util.List;
 
 public class MainPage extends AppCompatActivity
 {
-    List<FlowerObject> flowers;
+    List<String> flowers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.support_simple_spinner_dropdown_item);
+        setContentView(R.layout.activity_main);
         DataBaseHelper helper = new DataBaseHelper(this);
-        try {
+        try
+        {
                 helper.createDataBase();
         }
         catch (IOException ioe)
@@ -25,7 +27,8 @@ public class MainPage extends AppCompatActivity
             throw new Error("not working can't make database");
         }
 
-        try{
+        try
+        {
             helper.openDataBase();
         }
         catch (SQLException sqle)
@@ -34,10 +37,8 @@ public class MainPage extends AppCompatActivity
         }
 
         flowers = helper.GrabAllNames();
-        Toast.makeText(MainPage.this, "Success", Toast.LENGTH_SHORT).show();
-        for (FlowerObject flower: flowers)
-        {
-            Toast.makeText(MainPage.this, flower._FlowerName, Toast.LENGTH_LONG).show();
-        }
+        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, flowers);
+        ListView listView= (ListView) findViewById(R.id.names);
+        listView.setAdapter(adapter);
     }
 }

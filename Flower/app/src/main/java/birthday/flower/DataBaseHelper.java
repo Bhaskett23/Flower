@@ -24,6 +24,8 @@ public class DataBaseHelper extends SQLiteOpenHelper
     private SQLiteDatabase myDataBase;
     private final Context myContext;
 
+    ArrayList<String> flowerNames = new ArrayList<>();
+
     public DataBaseHelper(Context context)
     {
         super(context, DB_NAME, null, 1);
@@ -106,20 +108,22 @@ public class DataBaseHelper extends SQLiteOpenHelper
     }
 
     //grab all names for drop down
-    public List<FlowerObject> GrabAllNames()
+    public List<String> GrabAllNames()
     {
-        List<FlowerObject> flowers = new ArrayList<>();
-        String[] columns = {"Name"};
-       Cursor cursor = myDataBase.query("Flowers", null, null, null, null, null, null, null);
-       cursor.moveToFirst();
-        while(!cursor.isAfterLast())
+        if (flowerNames.isEmpty())
         {
-            FlowerObject temp = new FlowerObject(0, cursor.getString(1), null, null, null);
-            flowers.add(temp);
-            cursor.moveToNext();
+            String[] columns = {"Name"};
+            Cursor cursor = myDataBase.query("Flowers", null, null, null, null, null, null, null);
+            cursor.moveToFirst();
+
+            while(!cursor.isAfterLast())
+            {
+                flowerNames.add(cursor.getString(1));
+                cursor.moveToNext();
+            }
         }
 
-        return flowers;
+        return flowerNames;
     }
 
     //grab specific Flower by name
