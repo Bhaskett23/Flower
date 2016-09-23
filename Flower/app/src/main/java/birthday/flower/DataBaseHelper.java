@@ -25,6 +25,8 @@ public class DataBaseHelper extends SQLiteOpenHelper
     private final Context myContext;
 
     ArrayList<String> flowerNames = new ArrayList<>();
+    List<FlowerObject> flowerObjects = new ArrayList<>();
+
 
     public DataBaseHelper(Context context)
     {
@@ -118,7 +120,12 @@ public class DataBaseHelper extends SQLiteOpenHelper
 
             while(!cursor.isAfterLast())
             {
-                flowerNames.add(cursor.getString(1));
+                String name = cursor.getString(1);
+                String keyWords = cursor.getString(2);
+                String indications = cursor.getString(3);
+                String cleansing = cursor.getString(4);
+                flowerNames.add(name);
+                flowerObjects.add(new FlowerObject(0, name, keyWords, indications, cleansing));
                 cursor.moveToNext();
             }
         }
@@ -127,13 +134,23 @@ public class DataBaseHelper extends SQLiteOpenHelper
     }
 
     //grab specific Flower by name
+    //need to get this working
     public FlowerObject GrabSpecificFlower(String name)
     {
-        Cursor cursor = myDataBase.rawQuery("select Name, KeyWords, Indications, Cleansing from Flowers WHERE Name = ?",
-                new String[]{name});
+        //String[] where = {name};
+       // Cursor cursor = myDataBase.query("Flowers", null, "Name=?", where, null, null, null);
 
-        FlowerObject flower = new FlowerObject(0, name, null, null, null);
-        return flower;
+       // FlowerObject flower = new FlowerObject(0, cursor.getString(1), null, null, null);
+       // return flower;
+        for (FlowerObject flower:flowerObjects)
+        {
+            if (flower.GetFlowerName() == name)
+            {
+                return flower;
+            }
+        }
+
+        return null;
     }
 
     @Override
