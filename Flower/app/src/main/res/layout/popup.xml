@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@android:color/holo_red_dark">
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:background="@android:color/background_light">
+
+    <Button
+        android:id="@+id/closeButton"
+        android:layout_alignParentRight="true"
+        android:text="X"
+        android:textColor="#FFF"
+        android:background="@drawable/round_button_background"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_margin="5dp"
+        android:layout_height="25dp"
+        android:layout_width="25dp"
+        android:textSize="12sp"
+        android:textStyle="bold"/>
 
     <TextView
-    android:id="@+id/HerbName"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+        android:id="@+id/HerbName"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/Indications"
@@ -25,4 +38,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</LinearLayout>
+</RelativeLayout>

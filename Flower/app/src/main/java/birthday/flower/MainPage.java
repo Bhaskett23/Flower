@@ -1,5 +1,6 @@
 package birthday.flower;
 
+import android.content.Intent;
 import android.database.SQLException;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -50,7 +52,8 @@ public class MainPage extends AppCompatActivity
         final ListView listView= (ListView) findViewById(R.id.names);
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String herb = ((TextView)view).getText().toString();
@@ -63,13 +66,23 @@ public class MainPage extends AppCompatActivity
                 TextView indications = (TextView)popupWindow.getContentView().findViewById(R.id.Indications);
                 TextView cleansing = (TextView)popupWindow.getContentView().findViewById(R.id.Cleansing);
                 TextView keyWords = (TextView)popupWindow.getContentView().findViewById(R.id.KeyWords);
-
-
                 name.setText(flower.GetFlowerName());
                 indications.setText(flower.GetIndications());
                 cleansing.setText(flower.GetCleansing());
                 keyWords.setText(flower.GetKeyWords());
                 popupWindow.showAtLocation(listView, Gravity.CENTER, 0, 0);
+
+                Button closeButton = (Button)popupView.findViewById(R.id.closeButton);
+
+                closeButton.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        popupWindow.dismiss();
+                    }
+                });
+
             }
         });
     }
