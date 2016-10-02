@@ -63,11 +63,13 @@ public class MainPage extends AppCompatActivity
                 final PopupWindow popupWindow = new PopupWindow( popupView, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
                 Toast.makeText(MainPage.this, "the clicked item had " + herb + " as the text", Toast.LENGTH_SHORT).show();
                 TextView name = (TextView)popupWindow.getContentView().findViewById(R.id.HerbName);
+                name.setText(flower.GetFlowerName());
                 TextView indications = (TextView)popupWindow.getContentView().findViewById(R.id.Indications);
+                indications.setText(flower.GetIndications());
                 TextView cleansing = (TextView)popupWindow.getContentView().findViewById(R.id.Cleansing);
                 TextView keyWords = (TextView)popupWindow.getContentView().findViewById(R.id.KeyWords);
-                name.setText(flower.GetFlowerName());
-                indications.setText(flower.GetIndications());
+
+
                 cleansing.setText(flower.GetCleansing());
                 keyWords.setText(flower.GetKeyWords());
                 popupWindow.showAtLocation(listView, Gravity.CENTER, 0, 0);

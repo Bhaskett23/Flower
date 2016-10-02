@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_height="wrap_content"
-    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
     android:background="@android:color/background_light">
-
     <Button
         android:id="@+id/closeButton"
         android:layout_alignParentRight="true"
@@ -16,26 +15,31 @@
         android:layout_height="25dp"
         android:layout_width="25dp"
         android:textSize="12sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"/>
 
     <TextView
         android:id="@+id/HerbName"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/closeButton"/>
 
     <TextView
         android:id="@+id/Indications"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/HerbName"/>
 
     <TextView
         android:id="@+id/Cleansing"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Indications"/>
 
     <TextView
         android:id="@+id/KeyWords"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Cleansing"/>
 
 </RelativeLayout>
