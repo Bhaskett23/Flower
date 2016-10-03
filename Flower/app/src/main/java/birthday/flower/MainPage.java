@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Layout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -63,13 +64,12 @@ public class MainPage extends AppCompatActivity
                 final PopupWindow popupWindow = new PopupWindow( popupView, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
                 Toast.makeText(MainPage.this, "the clicked item had " + herb + " as the text", Toast.LENGTH_SHORT).show();
                 TextView name = (TextView)popupWindow.getContentView().findViewById(R.id.HerbName);
-                name.setText(flower.GetFlowerName());
+
                 TextView indications = (TextView)popupWindow.getContentView().findViewById(R.id.Indications);
-                indications.setText(flower.GetIndications());
                 TextView cleansing = (TextView)popupWindow.getContentView().findViewById(R.id.Cleansing);
                 TextView keyWords = (TextView)popupWindow.getContentView().findViewById(R.id.KeyWords);
-
-
+                indications.setText(flower.GetIndications());
+                name.setText(flower.GetFlowerName());
                 cleansing.setText(flower.GetCleansing());
                 keyWords.setText(flower.GetKeyWords());
                 popupWindow.showAtLocation(listView, Gravity.CENTER, 0, 0);
@@ -84,7 +84,28 @@ public class MainPage extends AppCompatActivity
                         popupWindow.dismiss();
                     }
                 });
+                popupView.setOnTouchListener(new View.OnTouchListener() {
+                    int orgX, orgY;
+                    int offsetX, offsetY;
 
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent)
+                    {
+                        switch (motionEvent.getAction())
+                        {
+                            case MotionEvent.ACTION_DOWN:
+                                orgX = (int) motionEvent.getX();
+                                orgY = (int) motionEvent.getY();
+                                break;
+                            case MotionEvent.ACTION_MOVE:
+                                offsetX = (int) motionEvent.getRawX() - orgX;
+                                offsetY = (int) motionEvent.getRawY() - orgY;
+                                popupWindow.update(offsetX, offsetY, -1, -1, true);
+                                break;
+                        }
+                        return true;
+                    }
+                });
             }
         });
     }
