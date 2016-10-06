@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--  Main page design -->
 <!--  TODO: add search functionality and logic for opening pages or popups -->
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainPage">
+    tools:context=".MainPage"
+    android:orientation="horizontal"
+    android:focusableInTouchMode="true">
+    <EditText android:id="@+id/search_bar"
+        android:layout_height="120px"
+        android:layout_width="match_parent"
+        android:hint="Search"
+        android:layout_alignParentTop="true">
+    </EditText>
     <ListView
         android:id="@+id/names"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_bar">
     </ListView>
-</LinearLayout>
+</RelativeLayout>
