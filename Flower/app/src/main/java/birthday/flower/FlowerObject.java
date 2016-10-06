@@ -6,11 +6,11 @@ package birthday.flower;
 public class FlowerObject
 {
     //properties
-    int _id;
-    String _FlowerName;
-    String _KeyWords;
-    String _Indications;
-    String _Cleansing;
+    private int _id;
+    private String _FlowerName;
+    private String _KeyWords;
+    private String _Indications;
+    private String _Cleansing;
 
     public FlowerObject(){}
     // main constructor for the FlowerObject
