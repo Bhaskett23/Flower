@@ -19,83 +19,80 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class MainPage extends AppCompatActivity
-{
+public class MainPage extends AppCompatActivity {
     List<String> flowers;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final DataBaseHelper helper = new DataBaseHelper(this);
-        try
-        {
-                helper.createDataBase();
-        }
-        catch (IOException ioe)
-        {
+        try {
+            helper.createDataBase();
+        } catch (IOException ioe) {
             throw new Error("not working can't make database");
         }
 
-        try
-        {
+        try {
             helper.openDataBase();
-        }
-        catch (SQLException sqle)
-        {
+        } catch (SQLException sqle) {
             throw sqle;
         }
 
         flowers = helper.GrabAllNames();
-        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, flowers);
-        final ListView listView= (ListView) findViewById(R.id.names);
+        final ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, flowers);
+        final ListView listView = (ListView) findViewById(R.id.names);
         listView.setAdapter(adapter);
-        EditText search = (EditText)findViewById(R.id.search);
+        EditText search = (EditText) findViewById(R.id.search);
         search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent)
-            {
-                if (i == KeyEvent.KEYCODE_ENTER || i == EditorInfo.IME_ACTION_DONE)
-                {
-                   Toast t = Toast.makeText(MainPage.this, "The event works the search will use " + textView.getText(), Toast.LENGTH_LONG);
-                    t.setGravity(Gravity.TOP, 0, 0);
-                    t.show();
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == KeyEvent.KEYCODE_ENTER || i == EditorInfo.IME_ACTION_DONE) {
+                    String input = textView.getText().toString();
+                    adapter.clear();
+                    List<String> result = helper.Searching(input);
+                    if (result.isEmpty())
+                    {
+                        result = helper.GrabAllNames();
+                        Toast t = Toast.makeText(MainPage.this, "The searched item " + input + " gave no results please try again" , Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.TOP, 0, 0);
+                        t.show();
+                    }
+                    adapter.addAll(result);
+                    adapter.notifyDataSetChanged();
                 }
                 return true;
             }
         });
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String herb = ((TextView)view).getText().toString();
+                String herb = ((TextView) view).getText().toString();
                 FlowerObject flower = helper.GrabSpecificFlower(herb);
-                LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
                 View popupView = layoutInflater.inflate(R.layout.popup, null);
-                final PopupWindow popupWindow = new PopupWindow( popupView, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+                final PopupWindow popupWindow = new PopupWindow(popupView, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
                 //Toast.makeText(MainPage.this, "the clicked item had " + herb + " as the text", Toast.LENGTH_SHORT).show();
-                TextView name = (TextView)popupWindow.getContentView().findViewById(R.id.HerbName);
+                TextView name = (TextView) popupWindow.getContentView().findViewById(R.id.HerbName);
 
-                TextView indications = (TextView)popupWindow.getContentView().findViewById(R.id.Indications);
-                TextView cleansing = (TextView)popupWindow.getContentView().findViewById(R.id.Cleansing);
-                TextView keyWords = (TextView)popupWindow.getContentView().findViewById(R.id.KeyWords);
+                TextView indications = (TextView) popupWindow.getContentView().findViewById(R.id.Indications);
+                TextView cleansing = (TextView) popupWindow.getContentView().findViewById(R.id.Cleansing);
+                TextView keyWords = (TextView) popupWindow.getContentView().findViewById(R.id.KeyWords);
                 indications.setText(flower.GetIndications());
                 name.setText(flower.GetFlowerName());
                 cleansing.setText(flower.GetCleansing());
                 keyWords.setText(flower.GetKeyWords());
                 popupWindow.showAtLocation(listView, Gravity.CENTER, 0, 0);
 
-                Button closeButton = (Button)popupView.findViewById(R.id.closeButton);
+                Button closeButton = (Button) popupView.findViewById(R.id.closeButton);
 
 
-                closeButton.setOnClickListener(new View.OnClickListener()
-                {
+                closeButton.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view)
-                    {
+                    public void onClick(View view) {
                         popupWindow.dismiss();
                     }
                 });
@@ -104,10 +101,8 @@ public class MainPage extends AppCompatActivity
                     int offsetX, offsetY;
 
                     @Override
-                    public boolean onTouch(View view, MotionEvent motionEvent)
-                    {
-                        switch (motionEvent.getAction())
-                        {
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        switch (motionEvent.getAction()) {
                             case MotionEvent.ACTION_DOWN:
                                 orgX = (int) motionEvent.getX();
                                 orgY = (int) motionEvent.getY();
@@ -125,5 +120,4 @@ public class MainPage extends AppCompatActivity
         });
     }
 }
-
 

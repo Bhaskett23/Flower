@@ -153,6 +153,20 @@ public class DataBaseHelper extends SQLiteOpenHelper
         return null;
     }
 
+    public List<String> Searching(String searchFor)
+    {
+        ArrayList<String> toReturn = new ArrayList<>();
+        for (FlowerObject flower:flowerObjects)
+        {
+            if ( flower.GetKeyWords().contains(searchFor))
+            {
+                toReturn.add(flower.GetFlowerName());
+            }
+        }
+        return toReturn;
+    }
+
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase){}
 
