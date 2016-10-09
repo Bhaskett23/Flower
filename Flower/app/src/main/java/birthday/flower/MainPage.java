@@ -1,18 +1,19 @@
 package birthday.flower;
 
-import android.content.Intent;
 import android.database.SQLException;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -52,7 +53,20 @@ public class MainPage extends AppCompatActivity
         ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, flowers);
         final ListView listView= (ListView) findViewById(R.id.names);
         listView.setAdapter(adapter);
-
+        EditText search = (EditText)findViewById(R.id.search);
+        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent)
+            {
+                if (i == KeyEvent.KEYCODE_ENTER || i == EditorInfo.IME_ACTION_DONE)
+                {
+                   Toast t = Toast.makeText(MainPage.this, "The event works the search will use " + textView.getText(), Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.TOP, 0, 0);
+                    t.show();
+                }
+                return true;
+            }
+        });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
@@ -62,7 +76,7 @@ public class MainPage extends AppCompatActivity
                 LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
                 View popupView = layoutInflater.inflate(R.layout.popup, null);
                 final PopupWindow popupWindow = new PopupWindow( popupView, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
-                Toast.makeText(MainPage.this, "the clicked item had " + herb + " as the text", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainPage.this, "the clicked item had " + herb + " as the text", Toast.LENGTH_SHORT).show();
                 TextView name = (TextView)popupWindow.getContentView().findViewById(R.id.HerbName);
 
                 TextView indications = (TextView)popupWindow.getContentView().findViewById(R.id.Indications);
@@ -75,6 +89,7 @@ public class MainPage extends AppCompatActivity
                 popupWindow.showAtLocation(listView, Gravity.CENTER, 0, 0);
 
                 Button closeButton = (Button)popupView.findViewById(R.id.closeButton);
+
 
                 closeButton.setOnClickListener(new View.OnClickListener()
                 {

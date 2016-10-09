@@ -9,16 +9,20 @@
     tools:context=".MainPage"
     android:orientation="horizontal"
     android:focusableInTouchMode="true">
-    <EditText android:id="@+id/search_bar"
+    <EditText android:id="@+id/search"
         android:layout_height="120px"
         android:layout_width="match_parent"
         android:hint="Search"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        android:lines="1"
+        android:inputType="text"
         android:layout_alignParentTop="true">
     </EditText>
     <ListView
         android:id="@+id/names"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/search_bar">
+        android:layout_below="@+id/search">
     </ListView>
 </RelativeLayout>
