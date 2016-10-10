@@ -52,15 +52,20 @@ public class MainPage extends AppCompatActivity {
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == KeyEvent.KEYCODE_ENTER || i == EditorInfo.IME_ACTION_DONE) {
                     String input = textView.getText().toString();
-                    adapter.clear();
                     List<String> result = helper.Searching(input);
                     if (result.isEmpty())
                     {
+                        adapter.clear();
                         result = helper.GrabAllNames();
-                        Toast t = Toast.makeText(MainPage.this, "The searched item " + input + " gave no results please try again" , Toast.LENGTH_LONG);
+                        Toast t = Toast.makeText(MainPage.this, "The search gave no results please try again" , Toast.LENGTH_LONG);
                         t.setGravity(Gravity.TOP, 0, 0);
                         t.show();
                     }
+                    else
+                    {
+                        adapter.clear();
+                    }
+
                     adapter.addAll(result);
                     adapter.notifyDataSetChanged();
                 }

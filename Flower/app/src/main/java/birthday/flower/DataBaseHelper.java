@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -158,7 +159,8 @@ public class DataBaseHelper extends SQLiteOpenHelper
         ArrayList<String> toReturn = new ArrayList<>();
         for (FlowerObject flower:flowerObjects)
         {
-            if ( flower.GetKeyWords().contains(searchFor))
+            String[] split = flower.GetKeyWords().toLowerCase().split("\\, ");
+            if (Arrays.asList(split).contains(searchFor.toLowerCase()))
             {
                 toReturn.add(flower.GetFlowerName());
             }
