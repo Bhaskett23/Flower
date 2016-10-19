@@ -26,7 +26,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
     private final Context myContext;
 
     ArrayList<String> flowerNames = new ArrayList<>();
-    List<FlowerObject> flowerObjects = new ArrayList<>();
+    static List<FlowerObject> flowerObjects = new ArrayList<>();
 
 
     public DataBaseHelper(Context context)
@@ -126,7 +126,11 @@ public class DataBaseHelper extends SQLiteOpenHelper
                 String indications = cursor.getString(3);
                 String cleansing = cursor.getString(4);
                 flowerNames.add(name);
-                flowerObjects.add(new FlowerObject(0, name, keyWords, indications, cleansing));
+                //hack: this will have to be removed when adding new herbs is added
+                if (flowerObjects.size() < 38)
+                {
+                    flowerObjects.add(new FlowerObject(0, name, keyWords, indications, cleansing));
+                }
                 cursor.moveToNext();
             }
         }
@@ -145,7 +149,8 @@ public class DataBaseHelper extends SQLiteOpenHelper
        // return flower;
         for (FlowerObject flower:flowerObjects)
         {
-            if (flower.GetFlowerName() == name)
+            String flowerName = flower.GetFlowerName();
+            if (flowerName.equals(name))
             {
                 return flower;
             }
@@ -165,6 +170,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
                 toReturn.add(flower.GetFlowerName());
             }
         }
+
         return toReturn;
     }
 

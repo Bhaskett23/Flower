@@ -19,7 +19,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainPage extends AppCompatActivity {
@@ -52,22 +51,21 @@ public class MainPage extends AppCompatActivity {
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == KeyEvent.KEYCODE_ENTER || i == EditorInfo.IME_ACTION_DONE) {
                     String input = textView.getText().toString();
-                    List<String> result = helper.Searching(input);
-                    if (result.isEmpty())
+                    adapter.clear();
+                    flowers = helper.Searching(input);
+                    if (flowers.isEmpty())
                     {
                         adapter.clear();
-                        result = helper.GrabAllNames();
-                        Toast t = Toast.makeText(MainPage.this, "The search gave no results please try again" , Toast.LENGTH_LONG);
-                        t.setGravity(Gravity.TOP, 0, 0);
-                        t.show();
+                        flowers = helper.GrabAllNames();
+                        if (!input.isEmpty())
+                        {
+                            Toast t = Toast.makeText(MainPage.this, "The search gave no results please try again" , Toast.LENGTH_LONG);
+                            t.setGravity(Gravity.TOP, 0, 0);
+                            t.show();
+                        }
+                        return true;
                     }
-                    else
-                    {
-                        adapter.clear();
-                    }
-
-                    adapter.addAll(result);
-                    adapter.notifyDataSetChanged();
+                    adapter.addAll(flowers);
                 }
                 return true;
             }
@@ -80,7 +78,6 @@ public class MainPage extends AppCompatActivity {
                 LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
                 View popupView = layoutInflater.inflate(R.layout.popup, null);
                 final PopupWindow popupWindow = new PopupWindow(popupView, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
-                //Toast.makeText(MainPage.this, "the clicked item had " + herb + " as the text", Toast.LENGTH_SHORT).show();
                 TextView name = (TextView) popupWindow.getContentView().findViewById(R.id.HerbName);
 
                 TextView indications = (TextView) popupWindow.getContentView().findViewById(R.id.Indications);
@@ -93,7 +90,6 @@ public class MainPage extends AppCompatActivity {
                 popupWindow.showAtLocation(listView, Gravity.CENTER, 0, 0);
 
                 Button closeButton = (Button) popupView.findViewById(R.id.closeButton);
-
 
                 closeButton.setOnClickListener(new View.OnClickListener() {
                     @Override
