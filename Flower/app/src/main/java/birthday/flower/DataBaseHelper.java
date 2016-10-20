@@ -165,12 +165,16 @@ public class DataBaseHelper extends SQLiteOpenHelper
         for (FlowerObject flower:flowerObjects)
         {
             String[] split = flower.GetKeyWords().toLowerCase().split("\\, ");
-            if (Arrays.asList(split).contains(searchFor.toLowerCase()))
+            List<String> holder = Arrays.asList(split);
+            for (String keyWord:holder)
             {
-                toReturn.add(flower.GetFlowerName());
+                if (keyWord.contains(searchFor.toLowerCase().trim()))
+                {
+                    toReturn.add(flower.GetFlowerName());
+                    break;
+                }
             }
         }
-
         return toReturn;
     }
 

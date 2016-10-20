@@ -107,6 +107,7 @@ public class MainPage extends AppCompatActivity {
                             case MotionEvent.ACTION_DOWN:
                                 orgX = (int) motionEvent.getX();
                                 orgY = (int) motionEvent.getY();
+                                //Log.d("test", "x: " + orgX + " y: " + orgY);
                                 break;
                             case MotionEvent.ACTION_MOVE:
                                 offsetX = (int) motionEvent.getRawX() - orgX;
