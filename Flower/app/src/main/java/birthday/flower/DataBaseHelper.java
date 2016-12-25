@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
     private final Context myContext;
 
     ArrayList<String> flowerNames = new ArrayList<>();
-    List<FlowerObject> flowerObjects = new ArrayList<>();
+    static List<FlowerObject> flowerObjects = new ArrayList<>();
 
 
     public DataBaseHelper(Context context)
@@ -125,7 +126,11 @@ public class DataBaseHelper extends SQLiteOpenHelper
                 String indications = cursor.getString(3);
                 String cleansing = cursor.getString(4);
                 flowerNames.add(name);
-                flowerObjects.add(new FlowerObject(0, name, keyWords, indications, cleansing));
+                //hack: this will have to be removed when adding new herbs is added
+                if (flowerObjects.size() < 38)
+                {
+                    flowerObjects.add(new FlowerObject(0, name, keyWords, indications, cleansing));
+                }
                 cursor.moveToNext();
             }
         }
@@ -144,7 +149,8 @@ public class DataBaseHelper extends SQLiteOpenHelper
        // return flower;
         for (FlowerObject flower:flowerObjects)
         {
-            if (flower.GetFlowerName() == name)
+            String flowerName = flower.GetFlowerName();
+            if (flowerName.equals(name))
             {
                 return flower;
             }
@@ -152,6 +158,26 @@ public class DataBaseHelper extends SQLiteOpenHelper
 
         return null;
     }
+
+    public List<String> Searching(String searchFor)
+    {
+        ArrayList<String> toReturn = new ArrayList<>();
+        for (FlowerObject flower:flowerObjects)
+        {
+            String[] split = flower.GetKeyWords().toLowerCase().split("\\, ");
+            List<String> holder = Arrays.asList(split);
+            for (String keyWord:holder)
+            {
+                if (keyWord.contains(searchFor.toLowerCase().trim()))
+                {
+                    toReturn.add(flower.GetFlowerName());
+                    break;
+                }
+            }
+        }
+        return toReturn;
+    }
+
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase){}
