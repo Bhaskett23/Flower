@@ -1,4 +1,4 @@
-package birthday.flower;
+package birthday.flower.Models;
 
 /**
  * Created by Brandon on 9/1/2016.
@@ -12,7 +12,6 @@ public class FlowerObject
     private String _Indications;
     private String _Cleansing;
 
-    public FlowerObject(){}
     // main constructor for the FlowerObject
     //look into making different constructors
     public FlowerObject(int id,
