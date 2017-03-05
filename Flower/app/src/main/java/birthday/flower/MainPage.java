@@ -23,7 +23,7 @@ import java.util.List;
 
 import birthday.flower.Database.DataBaseHelper;
 import birthday.flower.Models.FlowerModel;
-juyuj
+
 
 public class MainPage extends AppCompatActivity {
     List<String> flowers;
