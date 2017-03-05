@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import birthday.flower.Models.FlowerObject;
+import birthday.flower.Models.FlowerModel;
 
 /**
  * Created by Brandon on 9/2/2016.
@@ -28,7 +28,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
     private final Context myContext;
 
     ArrayList<String> flowerNames = new ArrayList<>();
-    static List<FlowerObject> flowerObjects = new ArrayList<>();
+    static List<FlowerModel> flowerModels = new ArrayList<>();
 
 
     public DataBaseHelper(Context context)
@@ -129,9 +129,9 @@ public class DataBaseHelper extends SQLiteOpenHelper
                 String cleansing = cursor.getString(4);
                 flowerNames.add(name);
                 //hack: this will have to be removed when adding new herbs is added
-                if (flowerObjects.size() < 38)
+                if (flowerModels.size() < 38)
                 {
-                    flowerObjects.add(new FlowerObject(0, name, keyWords, indications, cleansing));
+                    flowerModels.add(new FlowerModel(0, name, keyWords, indications, cleansing));
                 }
                 cursor.moveToNext();
             }
@@ -142,14 +142,14 @@ public class DataBaseHelper extends SQLiteOpenHelper
 
     //grab specific Flower by name
     //need to get this working
-    public FlowerObject GrabSpecificFlower(String name)
+    public FlowerModel GrabSpecificFlower(String name)
     {
         //String[] where = {name};
        // Cursor cursor = myDataBase.query("Flowers", null, "Name=?", where, null, null, null);
 
-       // FlowerObject flower = new FlowerObject(0, cursor.getString(1), null, null, null);
+       // FlowerModel flower = new FlowerModel(0, cursor.getString(1), null, null, null);
        // return flower;
-        for (FlowerObject flower:flowerObjects)
+        for (FlowerModel flower: flowerModels)
         {
             String flowerName = flower.GetFlowerName();
             if (flowerName.equals(name))
@@ -164,7 +164,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
     public List<String> Searching(String searchFor)
     {
         ArrayList<String> toReturn = new ArrayList<>();
-        for (FlowerObject flower:flowerObjects)
+        for (FlowerModel flower: flowerModels)
         {
             String[] split = flower.GetKeyWords().toLowerCase().split("\\, ");
             List<String> holder = Arrays.asList(split);

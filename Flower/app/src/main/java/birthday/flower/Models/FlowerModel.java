@@ -3,7 +3,7 @@ package birthday.flower.Models;
 /**
  * Created by Brandon on 9/1/2016.
  */
-public class FlowerObject
+public class FlowerModel
 {
     //properties
     private int _id;
@@ -12,13 +12,13 @@ public class FlowerObject
     private String _Indications;
     private String _Cleansing;
 
-    // main constructor for the FlowerObject
+    // main constructor for the FlowerModel
     //look into making different constructors
-    public FlowerObject(int id,
-                        String FlowerName,
-                        String KeyWords,
-                        String Indications,
-                        String Cleansing)
+    public FlowerModel(int id,
+                       String FlowerName,
+                       String KeyWords,
+                       String Indications,
+                       String Cleansing)
     {
         _id = id;
         _FlowerName = FlowerName;

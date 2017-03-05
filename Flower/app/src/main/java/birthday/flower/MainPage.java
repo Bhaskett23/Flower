@@ -22,7 +22,8 @@ import java.io.IOException;
 import java.util.List;
 
 import birthday.flower.Database.DataBaseHelper;
-import birthday.flower.Models.FlowerObject;
+import birthday.flower.Models.FlowerModel;
+juyuj
 
 public class MainPage extends AppCompatActivity {
     List<String> flowers;
@@ -77,7 +78,7 @@ public class MainPage extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String herb = ((TextView) view).getText().toString();
-                FlowerObject flower = helper.GrabSpecificFlower(herb);
+                FlowerModel flower = helper.GrabSpecificFlower(herb);
                 LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
                 View popupView = layoutInflater.inflate(R.layout.popup, null);
                 final PopupWindow popupWindow = new PopupWindow(popupView, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
